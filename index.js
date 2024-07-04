@@ -4,12 +4,17 @@
 let testing = {"tomatoes": 5, "apples": 10, "bananas": 3, "pears": 0};
 
 const prompt = require("prompt-sync")({sigint : false});
+const calibrationDoc = require("./src_files/calibrationDoc");
 
 let productsQuestion = "See if we have any fruit/vegetable in our stock -> ";
 
-
 while (true){
 	let product = prompt(productsQuestion);
+
+	if (product == "calibrationDoc"){
+		console.log(calibrationDoc());
+		continue;
+	}
 
 	// Goodbye message if the input is "CTRL + c" or exit
 	if (!product || product === "exit") {
