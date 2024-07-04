@@ -1,21 +1,7 @@
-// Me da como resultado undefined
-
-//import { readFileSync} from "fs"; 
-// Requiere configuración adicional desde package.json, debido a que las
-// parecen tener acceso solamente a un convenio de modulos
-
 const fs = require("fs");
 const readFile = fs.readFileSync;
 
-// Quiero aprender sobre promesas y programación asincrona en JS para poder
-// usar promesas y que la función me devuelva un valor
-
-// "readFile" es una función asincrona, el console.log() al final se ejecuta
-// antes de que la función pueda devolver los datos correspondientes;
-
-// readFileSyn es la versión sincrona de la función mencionada anteriormente
-
-let data = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/calibrationDoc.txt', 'utf8');
+let data = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day1/fisrtPart.txt', 'utf8');
 
 
 function getNumsResult() {
