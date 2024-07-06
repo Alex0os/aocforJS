@@ -1,20 +1,19 @@
 // This file will serve the purpose to execute all the source files and compare
 // the results that this were given with the right ones
 
-let testing = {"tomatoes": 5, "apples": 10, "bananas": 3, "pears": 0};
-
 const prompt = require("prompt-sync")({sigint : false});
-const firstPart = require("./src_files/Day1/firstPart");
 
-let productsQuestion = "See if we have any fruit/vegetable in our stock -> ";
+const days = {
+	1 : ["Day1: Trebuchet?", require("/home/Matixannder/Desktop/AdventOfCode/JS/src_files/Day1/firstPart")()]
+}
+const TITLE = 0;
+const RESULT = 1;
+
+let displayQuestion = "Select from the days that have been completed: ";
 
 while (true){
-	let product = prompt(productsQuestion);
 
-	if (product == "firstPart"){
-		console.log(firstPart());
-		continue;
-	}
+	let product = prompt(displayQuestion);
 
 	// Goodbye message if the input is "CTRL + c" or exit
 	if (!product || product === "exit") {
@@ -22,9 +21,8 @@ while (true){
 		break;
 	}
 
-	if (testing[product.toLowerCase()]){
-		console.log(`We have ${testing[product.toLowerCase()]} of them`);
-	} else {
-		console.log(`We are out of ${product}, sorry!`);
+	if (days[product]) {
+		console.log(`${days[product][TITLE]} --> ${days[product][RESULT]}`);
 	}
+
 }
