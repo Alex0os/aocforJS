@@ -25,11 +25,13 @@ function filesObj() {
 }
 
 function questionDisplay(days){
-	let returnString = ""
+	let returnString = "---------------------------------\n"
 	
 	for (i in days) {
 		returnString += "- " + i + "\n";
 	}
+
+	returnString += "---------------------------------"
 	return returnString;
 }
 
@@ -41,6 +43,7 @@ const promptMessage = questionDisplay(days);
 
 while (true){
 	console.log("Days of AOC reviewed:\n" + promptMessage);
+
 	let daySelected = prompt("Select a day to review ---> ");
 
 	// Goodbye message if the input is "CTRL + c" or exit
@@ -49,11 +52,16 @@ while (true){
 		break;
 	}
 
+
+	console.log("\n");
+
 	if (days[daySelected]) {
 		console.log(`The problems are:`)
+		console.log("\n*********************************")
 		for (problem of days[daySelected]) {
 			console.log(problem);
 		}
+		console.log("*********************************\n")
 	} else {
 		console.log("Error");
 	}
