@@ -1,11 +1,30 @@
-// This file will serve the purpose to execute all the source files and compare
-// the results that this were given with the right ones
-
+const execCommand = require("child_process").execSync;
 const prompt = require("prompt-sync")({sigint : false});
 
-const days = {
-	1 : ["Day1: Trebuchet?", require("/home/Matixannder/Desktop/AdventOfCode/JS/src_files/Day1/firstPart")()]
+function filesObj() {
+	const returnObject = {};
+	let srcFiles = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
+	// Last elemnt is an empty string that the "execComand()" returns by default
+	srcFiles = srcFiles.slice(0, -1);
+
+
+	if (!srcFiles) {
+		console.log("There are no days completed");
+		return;
+	}
+
+	for (file of srcFiles) {
+		day = file.split("/")[1];
+		if (returnObject[day]) {
+			returnObject[day].push(file);
+		} else {
+			returnObject[day] = [file];
+		}
+	}
+	return returnObject;
 }
+
+
 const TITLE = 0;
 const RESULT = 1;
 
