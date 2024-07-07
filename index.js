@@ -14,7 +14,7 @@ function filesObj() {
 	}
 
 	for (file of srcFiles) {
-		day = file.split("/")[1];
+		let day = file.split("/")[1];
 		if (returnObject[day]) {
 			returnObject[day].push(file);
 		} else {
@@ -24,24 +24,38 @@ function filesObj() {
 	return returnObject;
 }
 
+function questionDisplay(days){
+	let returnString = ""
+	
+	for (i in days) {
+		returnString += "- " + i + "\n";
+	}
+	return returnString;
+}
 
-const TITLE = 0;
-const RESULT = 1;
 
-let displayQuestion = "Select from the days that have been completed: ";
+const days = filesObj();
+const promptMessage = questionDisplay(days);
+
+// Need to upgrade the layout of the message
 
 while (true){
-
-	let product = prompt(displayQuestion);
+	console.log("Days of AOC reviewed:\n" + promptMessage);
+	let daySelected = prompt("Select a day to review ---> ");
 
 	// Goodbye message if the input is "CTRL + c" or exit
-	if (!product || product === "exit") {
+	if (!daySelected || daySelected === "exit") {
 		console.log("Goodbye!");
 		break;
 	}
 
-	if (days[product]) {
-		console.log(`${days[product][TITLE]} --> ${days[product][RESULT]}`);
+	if (days[daySelected]) {
+		console.log(`The problems are:`)
+		for (problem of days[daySelected]) {
+			console.log(problem);
+		}
+	} else {
+		console.log("Error");
 	}
 
 }
