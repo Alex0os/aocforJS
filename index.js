@@ -4,6 +4,7 @@ const prompt = require("prompt-sync")({sigint : false});
 function filesObj() {
 	const returnObject = {};
 	let srcFiles = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
+
 	// Last element is an empty string that the "execComand()" returns by default
 	srcFiles = srcFiles.slice(0, -1);
 
@@ -16,6 +17,7 @@ function filesObj() {
 		const route = file.split("/");
 		let day = route[1];
 		let problem = route[2];
+
 		if (returnObject[day]) {
 			returnObject[day].push(problem);
 		} else {
@@ -27,32 +29,39 @@ function filesObj() {
 
 function questionDisplay(days){
 	let returnString = "---------------------------------\n"
-	
 	for (i in days) {
 		returnString += "- " + i + "\n";
 	}
-
 	returnString += "---------------------------------"
 	return returnString;
 }
 
+// Harden this function to treat exceptions and use the prompt() function
+// inside a while loop so you can select one of the options again if the input
+// is incorrect
 function getDayInfo(day, files) {
+	while (true) {
+		console.log("Select one of the options by its index number: ")
+		console.log("\n*********************************")
 
-	console.log(`The problems are:`)
-	console.log("\n*********************************")
+		for (let i = 0; i < files.length; i++){
+			console.log(String(i + 1) + "-> " + files[i]);
+		}
+		console.log("*********************************\n")
 
-	for (let i = 0; i < files.length; i++){
-		console.log(String(i + 1) + "-> " + files[i]);
-	}
-	console.log("*********************************\n")
+		let input = prompt("Select a file to review: ");
 
-	let input = prompt("Select a file to review: ");
+		if (!input || input === "go back") {
+			return;
+		}
 
-	if (files.includes(input)){
-		console.log(execCommand(`ls -l "src_files/${day}/${input}"`, {encoding: "utf8"}));
-	}
-	else {
-		console.log("Error");
+		if (files[Number(input) - 1]){
+			console.log(execCommand(`ls -l "src_files/${day}/${files[Number(input) - 1]}"`,
+				{encoding: "utf8"}));
+		}
+		else {
+			console.log(`ERROR --> "${input}" is not a valid option`);
+		}
 	}
 }
 
@@ -60,24 +69,25 @@ function getDayInfo(day, files) {
 const days = filesObj();
 const promptMessage = questionDisplay(days);
 
+(function main() {
+	while (true){
+		console.log("Days of AOC reviewed:\n" + promptMessage);
 
-while (true){
-	console.log("Days of AOC reviewed:\n" + promptMessage);
+		let daySelected = prompt("Select a day to review ---> ");
 
-	let daySelected = prompt("Select a day to review ---> ");
+		// Goodbye message if the input is "CTRL + c" or exit
+		if (!daySelected || daySelected === "exit") {
+			console.log("Goodbye!");
+			break;
+		}
 
-	// Goodbye message if the input is "CTRL + c" or exit
-	if (!daySelected || daySelected === "exit") {
-		console.log("Goodbye!");
-		break;
+		console.log("\n");
+
+
+		if (days[daySelected]) {
+			getDayInfo(daySelected, days[daySelected]);
+		} else {
+			console.log(`ERROR --> "${daySelected}" is not a valid option\nPlease Try again\n`);
+		}
 	}
-
-	console.log("\n");
-
-
-	if (days[daySelected]) {
-		getDayInfo(daySelected, days[daySelected]);
-	} else {
-		console.log("Error");
-	}
-}
+})();
