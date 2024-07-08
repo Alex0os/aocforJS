@@ -4,9 +4,8 @@ const prompt = require("prompt-sync")({sigint : false});
 function filesObj() {
 	const returnObject = {};
 	let srcFiles = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
-	// Last elemnt is an empty string that the "execComand()" returns by default
+	// Last element is an empty string that the "execComand()" returns by default
 	srcFiles = srcFiles.slice(0, -1);
-
 
 	if (!srcFiles) {
 		console.log("There are no days completed");
@@ -14,11 +13,13 @@ function filesObj() {
 	}
 
 	for (file of srcFiles) {
-		let day = file.split("/")[1];
+		const route = file.split("/");
+		let day = route[1];
+		let problem = route[2];
 		if (returnObject[day]) {
-			returnObject[day].push(file);
+			returnObject[day].push(problem);
 		} else {
-			returnObject[day] = [file];
+			returnObject[day] = [problem];
 		}
 	}
 	return returnObject;
@@ -35,11 +36,30 @@ function questionDisplay(days){
 	return returnString;
 }
 
+function getDayInfo(day, files) {
+
+	console.log(`The problems are:`)
+	console.log("\n*********************************")
+
+	for (let i = 0; i < files.length; i++){
+		console.log(String(i + 1) + "-> " + files[i]);
+	}
+	console.log("*********************************\n")
+
+	let input = prompt("Select a file to review: ");
+
+	if (files.includes(input)){
+		console.log(execCommand(`ls -l "src_files/${day}/${input}"`, {encoding: "utf8"}));
+	}
+	else {
+		console.log("Error");
+	}
+}
+
 
 const days = filesObj();
 const promptMessage = questionDisplay(days);
 
-// Need to upgrade the layout of the message
 
 while (true){
 	console.log("Days of AOC reviewed:\n" + promptMessage);
@@ -52,18 +72,12 @@ while (true){
 		break;
 	}
 
-
 	console.log("\n");
 
+
 	if (days[daySelected]) {
-		console.log(`The problems are:`)
-		console.log("\n*********************************")
-		for (problem of days[daySelected]) {
-			console.log(problem);
-		}
-		console.log("*********************************\n")
+		getDayInfo(daySelected, days[daySelected]);
 	} else {
 		console.log("Error");
 	}
-
 }
