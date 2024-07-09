@@ -32,4 +32,7 @@ function getNumsResult() {
 	return result;
 }
 
-module.exports = getNumsResult;
+module.exports = {
+	description : "This is the description",
+	result : `This is the result ---> ${getNumsResult()}`,
+}

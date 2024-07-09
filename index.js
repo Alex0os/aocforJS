@@ -49,15 +49,20 @@ function getDayInfo(day, files) {
 		}
 		console.log("*********************************\n")
 
-		let input = prompt("Select a file to review: ");
+		let input = prompt("Number --> ");
 
-		if (!input || input === "go back") {
+		if (!input || input === "return") {
 			return;
 		}
 
 		if (files[Number(input) - 1]){
-			console.log(execCommand(`ls -l "src_files/${day}/${files[Number(input) - 1]}"`,
-				{encoding: "utf8"}));
+			const importedValues = require(`./src_files/${day}/${files[Number(input) - 1]}`);
+			const errorInfo = 'No values were imported from ----> ' + files[Number(input) - 1] + '\
+			\nCheck if a description and value are provided with the "modules.export" utility\n';
+
+			const info = Object.keys(importedValues).length ? importedValues : errorInfo;
+
+			console.log(info);
 		}
 		else {
 			console.log(`ERROR --> "${input}" is not a valid option`);

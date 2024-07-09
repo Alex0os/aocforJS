@@ -35,5 +35,5 @@ function isValid(gameSet){
 		line = line.replace(/^Game \d+: /, "").split("; ");
 		result += isValid(line);
 	}
-	console.log(result);
+	//console.log(result);
 })();
