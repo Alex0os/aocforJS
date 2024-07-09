@@ -40,14 +40,16 @@ function questionDisplay(days){
 // inside a while loop so you can select one of the options again if the input
 // is incorrect
 function getDayInfo(day, files) {
-	while (true) {
-		console.log("Select one of the options by its index number: ")
-		console.log("\n*********************************")
+	let message = "";
+	let separators = "*********************************"
 
-		for (let i = 0; i < files.length; i++){
-			console.log(String(i + 1) + "-> " + files[i]);
-		}
-		console.log("*********************************\n")
+	for (let i = 0; i < files.length; i++){
+		message += String(i + 1) + "-> " + files[i] + "\n";
+	}
+
+	while (true) {
+		console.log("Select one of the options by its index number:\n")
+		console.log(separators + "\n" + message + separators + "\n");
 
 		let input = prompt("Number --> ");
 
@@ -61,7 +63,6 @@ function getDayInfo(day, files) {
 			\nCheck if a description and value are provided with the "modules.export" utility\n';
 
 			const info = Object.keys(importedValues).length ? importedValues : errorInfo;
-
 			console.log(info);
 		}
 		else {
