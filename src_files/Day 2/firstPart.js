@@ -1,39 +1,32 @@
-const fs = require("fs");
-const { clearLine } = require("readline");
-const readFile = fs.readFileSync;
+let text = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day2/firstPart.txt", "utf8").replace(/Game \d+: /, "");
+let input = text.split("\n").slice(0, -1);
 
 
+let answer = 0;
+let red = 12;
+let green = 13;
+let blue = 14;
 
-let fileContent = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day2/firstPart.txt', "utf8");
+//PART 1
+input.forEach(line => {
+	let validGame = true;
 
-const availableForEachType = {
-	red: 12,
-	green: 13,
-	blue: 14
-};
-
-function isValid(gameSet){
-	gameSet.forEach(element => {
-		const numbers = element.match(/\d+/g);
-		const colors = element.match(/(green|red|blue)/g);
-
-		for (let i = 0; i < colors.length; i++){
-			if (availableForEachType[colors[i]] < Number(numbers[i])){
-				return 0;
+	// For each line in the input, the line will be split into multiple elments
+	// that were separated by spaces
+	let sets = line.split(' ');
+	for (let i = 0; i < sets.length; i++) {
+			if (sets[i].match(/^red/g) && Number(sets[i - 1]) > red) {
+				validGame = false;
+				break;
+			} else if (sets[i].match(/^green/g) && Number(sets[i - 1]) > green) {
+				validGame = false;
+				break;
+			} else if (sets[i].match(/^blue/g) && Number(sets[i - 1]) > blue) {
+				validGame = false;
+				break;
 			}
-		}
-	});
-	return gameSet.length
-}
-
-(function cubeConondrum() {
-	let result = 0;
-
-	fileContent = fileContent.split("\n").slice(0, -1);
-	//const pattern = /^(\w+)\s(\d+)/;
-	for (line of fileContent){
-		line = line.replace(/^Game \d+: /, "").split("; ");
-		result += isValid(line);
 	}
-	//console.log(result);
-})();
+	answer += validGame ? Number(sets[1].split(':')[0]) : 0;
+});
+
+console.log(answer);
