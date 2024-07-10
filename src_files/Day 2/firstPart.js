@@ -29,4 +29,7 @@ input.forEach(line => {
 	answer += validGame ? Number(sets[1].split(':')[0]) : 0;
 });
 
-console.log(answer);
+module.exports = {
+	description: "No description provided yet",
+	result: answer
+}

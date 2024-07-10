@@ -1,30 +1,32 @@
 const execCommand = require("child_process").execSync;
 const prompt = require("prompt-sync")({sigint : false});
 
+const FOLDER_INDEX = 1;
+const FILE_INDEX = 2;
+
 function filesObj() {
-	const returnObject = {};
-	let srcFiles = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
-
+	const daysAndFilesObj = new Object();
+	let srcFilesRoutes = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
 	// Last element is an empty string that the "execComand()" returns by default
-	srcFiles = srcFiles.slice(0, -1);
+	srcFilesRoutes = srcFilesRoutes.slice(0, -1);
 
-	if (!srcFiles) {
+	if (!srcFilesRoutes) {
 		console.log("There are no days completed");
 		return;
 	}
 
-	for (file of srcFiles) {
-		const route = file.split("/");
-		let day = route[1];
-		let problem = route[2];
+	for (route of srcFilesRoutes) {
+		route = route.split("/");
+		let dayFolder = route[FOLDER_INDEX];
+		let problem = route[FILE_INDEX];
 
-		if (returnObject[day]) {
-			returnObject[day].push(problem);
+		if (daysAndFilesObj[dayFolder]) {
+			daysAndFilesObj[dayFolder].push(problem);
 		} else {
-			returnObject[day] = [problem];
+			daysAndFilesObj[dayFolder] = [problem];
 		}
 	}
-	return returnObject;
+	return daysAndFilesObj;
 }
 
 function questionDisplay(days){
@@ -36,9 +38,6 @@ function questionDisplay(days){
 	return returnString;
 }
 
-// Harden this function to treat exceptions and use the prompt() function
-// inside a while loop so you can select one of the options again if the input
-// is incorrect
 function getDayInfo(day, files) {
 	let message = "";
 	let separators = "*********************************"
@@ -78,7 +77,6 @@ const promptMessage = questionDisplay(days);
 (function main() {
 	while (true){
 		console.log("Days of AOC reviewed:\n" + promptMessage);
-
 		let daySelected = prompt("Select a day to review ---> ");
 
 		// Goodbye message if the input is "CTRL + c" or exit
@@ -88,7 +86,6 @@ const promptMessage = questionDisplay(days);
 		}
 
 		console.log("\n");
-
 
 		if (days[daySelected]) {
 			getDayInfo(daySelected, days[daySelected]);
