@@ -7,7 +7,7 @@ const FILE_INDEX = 2;
 function filesObj() {
 	const daysAndFilesObj = new Object();
 	let srcFilesRoutes = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
-	// Last element is an empty string that the "execComand()" returns by default
+	// "srcFilesRoutes" last element is an empty string that the "execComand()" returns by default
 	srcFilesRoutes = srcFilesRoutes.slice(0, -1);
 
 	if (!srcFilesRoutes) {
@@ -29,16 +29,16 @@ function filesObj() {
 	return daysAndFilesObj;
 }
 
-function questionDisplay(days){
-	let returnString = "---------------------------------\n"
-	for (i in days) {
-		returnString += "- " + i + "\n";
+function commandLineDescription(daysObj){
+	let commandMessage = "---------------------------------\n"
+	for (dayFolderName in daysObj) {
+		commandMessage += "- " + dayFolderName + "\n";
 	}
-	returnString += "---------------------------------"
-	return returnString;
+	commandMessage += "---------------------------------"
+	return commandMessage;
 }
 
-function getDayInfo(day, files) {
+function getDayFolderInfo(day, files) {
 	let message = "";
 	let separators = "*********************************"
 
@@ -71,12 +71,13 @@ function getDayInfo(day, files) {
 }
 
 
-const days = filesObj();
-const promptMessage = questionDisplay(days);
 
 (function main() {
+	const daysAndFilesObj = filesObj();
+	const commandLineMessage = commandLineDescription(daysAndFilesObj);
+
 	while (true){
-		console.log("Days of AOC reviewed:\n" + promptMessage);
+		console.log("Days of AOC reviewed:\n" + commandLineMessage);
 		let daySelected = prompt("Select a day to review ---> ");
 
 		// Goodbye message if the input is "CTRL + c" or exit
@@ -87,8 +88,8 @@ const promptMessage = questionDisplay(days);
 
 		console.log("\n");
 
-		if (days[daySelected]) {
-			getDayInfo(daySelected, days[daySelected]);
+		if (daysAndFilesObj[daySelected]) {
+			getDayFolderInfo(daySelected, daysAndFilesObj[daySelected]);
 		} else {
 			console.log(`ERROR --> "${daySelected}" is not a valid option\nPlease Try again\n`);
 		}
