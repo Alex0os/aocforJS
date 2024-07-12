@@ -1,35 +1,43 @@
-let text = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day2/firstPart.txt", "utf8").replace(/Game \d+: /, "");
-let input = text.split("\n").slice(0, -1);
-
-
-let answer = 0;
-let red = 12;
-let green = 13;
-let blue = 14;
+let fileInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/firstPart.txt", "utf8");
 
 //PART 1
-input.forEach(line => {
-	let validGame = true;
+function numberOfValidGames(){
+	// I may be stupid, but I can't find another way to make the "split()" method
+	// to return the array of games without the last element being an empty
+	// string that end up screwing the compilation of the file, so I just use slice()
+	let gamesArray = fileInput.split("\n").slice(0, -1);
+	let answer = 0;
 
-	// For each line in the input, the line will be split into multiple elments
-	// that were separated by spaces
-	let sets = line.split(' ');
-	for (let i = 0; i < sets.length; i++) {
-			if (sets[i].match(/^red/g) && Number(sets[i - 1]) > red) {
-				validGame = false;
-				break;
-			} else if (sets[i].match(/^green/g) && Number(sets[i - 1]) > green) {
-				validGame = false;
-				break;
-			} else if (sets[i].match(/^blue/g) && Number(sets[i - 1]) > blue) {
-				validGame = false;
-				break;
+	const validAmounts = {
+		red : 12,
+		green : 13,
+		blue : 14
+	};
+
+	gamesArray.forEach(game => {
+		let isValidGame = true;
+		const amountsAndColors = game.split(' ');
+
+		for (let i = 0; i < amountsAndColors.length; i++) {
+			const isAColor = amountsAndColors[i].match(/(red|blue|green)/g);
+			const isAnAmount = Number(amountsAndColors[i - 1]);
+
+			if (isAColor && isAnAmount > validAmounts[isAColor]) {
+				isValidGame = false;
+				break
 			}
-	}
-	answer += validGame ? Number(sets[1].split(':')[0]) : 0;
-});
+		}
 
+		if (isValidGame) {
+			const gameID = Number(amountsAndColors[1].split(':')[0]);
+			answer += gameID;
+		}
+	});
+	return answer
+}
+
+console.log(numberOfValidGames()); // 2156
 module.exports = {
 	description: "No description provided yet",
-	result: answer
+	result: numberOfValidGames()
 }
