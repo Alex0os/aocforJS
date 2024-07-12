@@ -1,11 +1,16 @@
-let fileInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/firstPart.txt", "utf8");
+let puzzleInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/firstPart.txt", "utf8");
+
+const testInput = `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`
 
 //PART 1
-function numberOfValidGames(){
-	// I may be stupid, but I can't find another way to make the "split()" method
-	// to return the array of games without the last element being an empty
-	// string that end up screwing the compilation of the file, so I just use slice()
-	let gamesArray = fileInput.split("\n").slice(0, -1);
+function numberOfValidGames(fileInput){
+	// The last element of "gamesArray" is an empty string. The conondrum is
+	// solved at the start of the "forEach" method
+	let gamesArray = fileInput.split("\n");
 	let answer = 0;
 
 	const validAmounts = {
@@ -14,7 +19,11 @@ function numberOfValidGames(){
 		blue : 14
 	};
 
-	gamesArray.forEach(game => {
+	gamesArray.forEach((game, index) => {
+		// The logic of these statements mark an empty string as valid, to
+		// avoid adding the ID of an empty string, this conditional is used
+		if (game === "") return; 
+
 		let isValidGame = true;
 		const amountsAndColors = game.split(' ');
 
@@ -29,15 +38,46 @@ function numberOfValidGames(){
 		}
 
 		if (isValidGame) {
-			const gameID = Number(amountsAndColors[1].split(':')[0]);
+			const gameID = index + 1
 			answer += gameID;
 		}
 	});
 	return answer
 }
 
-console.log(numberOfValidGames()); // 2156
+
+//PART 2
+function powerOfASetOfCubes(fileInput){
+	const gamesArray = fileInput.split("\n");
+	let result = 0;
+
+	gamesArray.forEach(game => {
+		const amountsAndColors = game.split(" ");
+		const leastAmountsForValidGame = {
+			red: 0,
+			blue: 0,
+			green: 0
+		};
+
+		for (let i = 0; i < amountsAndColors.length; i++) {
+			const isAColor = amountsAndColors[i].match(/(red|blue|green)/g);
+			const isAnAmount = Number(amountsAndColors[i - 1]);
+
+			if (isAColor && leastAmountsForValidGame[isAColor] < isAnAmount) {
+				leastAmountsForValidGame[isAColor] = isAnAmount;
+			}
+		}
+		let powerOfAmounts = 1;
+		Object.values(leastAmountsForValidGame).map(x => powerOfAmounts *= x);
+		result += powerOfAmounts;
+	});
+	return result;
+}
+
+console.log(numberOfValidGames(puzzleInput));
+console.log(powerOfASetOfCubes(puzzleInput));
+
 module.exports = {
 	description: "No description provided yet",
-	result: numberOfValidGames()
+	//result: numberOfValidGames(puzzleInput)
 }
