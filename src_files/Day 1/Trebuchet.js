@@ -1,7 +1,7 @@
 const fs = require("fs");
 const readFile = fs.readFileSync;
 
-let data = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day1/fisrtPart.txt', 'utf8');
+let data = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 1/fisrtPart.txt', 'utf8');
 
 
 function getNumsResult() {
