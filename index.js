@@ -33,17 +33,22 @@ function commandLineDescription(daysArray){
 }
 
 function getAOCDayInfo(fileString) {
-	const importedValues = require(`./src_files/${fileString}`);
-	const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
 
 	while (true) {
+		let importedValues = require(`./src_files/${fileString}`);
+		const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
 
 		const didImport = Object.keys(importedValues).length >= 0;
 		console.log(didImport ? importedValues : errorMessage);
 
+		delete require.cache[require.resolve(`./src_files/${fileString}`)];
 		let input = prompt("Press CTRL + C or write 'return' to go back: ");
+
+
 		if (!input || input === "return")
 			break;
+		else if (input === "try again")
+			continue;
 	}
 }
 

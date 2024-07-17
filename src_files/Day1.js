@@ -92,6 +92,7 @@ function wordsIntoNumbers(input_buffer) {
 console.log(wordsIntoNumbers(data));
 
 module.exports = {
-	description : "This is the description",
+	description : "It works!!",
 	result : `This is the result ---> ${getNumsResult()}`,
 }
+
