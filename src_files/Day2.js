@@ -1,4 +1,4 @@
-let puzzleInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/firstPart.txt", "utf8");
+let puzzleInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/inputDay2.txt", "utf8");
 
 const testInput = `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -74,10 +74,6 @@ function powerOfASetOfCubes(fileInput){
 	return result;
 }
 
-console.log(numberOfValidGames(puzzleInput));
-console.log(powerOfASetOfCubes(puzzleInput));
 
 module.exports = {
-	description: "No description provided yet",
-	//result: numberOfValidGames(puzzleInput)
 }

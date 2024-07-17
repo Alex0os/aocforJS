@@ -1,17 +1,32 @@
 const fs = require("fs");
 const readFile = fs.readFileSync;
 
-let data = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 1/fisrtPart.txt', 'utf8');
+let fileInput = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 1/inputDay1.txt', 'utf8');
+
+const testFirstPart = `1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet
+`;
+
+const testSecondPart = `two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+`;
 
 
-function getNumsResult() {
+function getNumsResult(input) {
 	let result = 0;
 	let arrayNums = []
 
 	let firstNum;
 	let secondNum;
 
-	for (char of data){
+	for (char of input){
 		if ((char === '\n') && (!secondNum)){
 			arrayNums.push(firstNum + firstNum);
 			firstNum = undefined;
@@ -34,16 +49,9 @@ function getNumsResult() {
 
 // Part 2
 
-const testInput = ` two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen`;
 
-function wordsIntoNumbers(input_buffer) {
-	input_buffer = input_buffer.split("\n");
+function wordsIntoNumbers(input) {
+	input = input.split("\n");
 
 	let total = 0;
 
@@ -59,7 +67,7 @@ function wordsIntoNumbers(input_buffer) {
 		"eight": "8",
 		"nine": "9"};
 
-	input_buffer.forEach(line => {
+	input.forEach(line => {
 		if (!line) {
 			return;
 		}
@@ -89,10 +97,18 @@ function wordsIntoNumbers(input_buffer) {
 	return total;
 }
 
-console.log(wordsIntoNumbers(data));
+console.log(getNumsResult(testFirstPart));
+console.log(wordsIntoNumbers(testSecondPart));
 
+console.log(getNumsResult(fileInput));
+console.log(wordsIntoNumbers(fileInput));
+
+/* 
+	* 142
+	* 281
+	* 55130
+	* 54985
+*/
 module.exports = {
-	description : "It works!!",
-	result : `This is the result ---> ${getNumsResult()}`,
 }
 

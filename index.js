@@ -62,20 +62,20 @@ function getAOCDayInfo(fileString) {
 
 	while (true){
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
-		let daySelected = prompt("Select a day to review ---> ");
+		let input = prompt("Select a day to review ---> ");
 
-		// Goodbye message if the input is "CTRL + c" or exit
-		if (!daySelected || daySelected === "exit") {
+		// "CTRL + C" or "exit" ends the REPL
+		if (!input || input === "exit") {
 			console.log("Goodbye!");
 			break;
 		}
-
 		console.log("\n");
 
-		if (daysArray[daySelected - 1]) {
-			getAOCDayInfo(daysArray[daySelected - 1]);
+		const daySelected = daysArray[input - 1];
+		if (daySelected) {
+			getAOCDayInfo(daySelected);
 		} else {
-			console.log(`ERROR --> "${daySelected}" is not a valid option\nPlease Try again\n`);
+			console.log(`ERROR --> "${input}" is not a valid option\nPlease Try again\n`);
 		}
 	}
 })();
