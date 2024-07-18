@@ -19,6 +19,7 @@ zoneight234
 `;
 
 
+// PART 1
 function getNumsResult(input) {
 	let result = 0;
 	let arrayNums = []
@@ -47,9 +48,7 @@ function getNumsResult(input) {
 	return result;
 }
 
-// Part 2
-
-
+// PART 2
 function wordsIntoNumbers(input) {
 	input = input.split("\n");
 
@@ -97,18 +96,23 @@ function wordsIntoNumbers(input) {
 	return total;
 }
 
-console.log(getNumsResult(testFirstPart));
-console.log(wordsIntoNumbers(testSecondPart));
 
-console.log(getNumsResult(fileInput));
-console.log(wordsIntoNumbers(fileInput));
-
-/* 
-	* 142
-	* 281
-	* 55130
-	* 54985
-*/
 module.exports = {
+	dayName : "Trebuchet?",
+
+	description : `The problem input are strings of multiple lines where
+	each line is made of words and numbers. So your job is to find the
+	first and last number in each line, put them next to each other and
+	then add every one of the composed numbers to get a result`,
+
+	testsResults : {
+		firstPart: getNumsResult(testFirstPart),
+		secondPart: wordsIntoNumbers(testSecondPart)
+	},
+
+	prolemSolutions : {
+		firstPart: getNumsResult(fileInput),
+		secondPart: wordsIntoNumbers(fileInput)
+	}
 }
 
