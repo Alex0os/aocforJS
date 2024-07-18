@@ -1,7 +1,7 @@
 const fs = require("fs");
 const readFile = fs.readFileSync;
 
-let fileInput = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 1/inputDay1.txt', 'utf8');
+let fileInput = readFile('/home/Matixannder/Desktop/AdventOfCode/JS/input_files/inputDay1.txt', 'utf8');
 
 const testFirstPart = `1abc2
 pqr3stu8vwx
