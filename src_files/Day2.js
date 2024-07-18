@@ -1,3 +1,5 @@
+const { testsResults } = require("./Day1");
+
 let puzzleInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/Day 2/inputDay2.txt", "utf8");
 
 const testInput = `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -20,7 +22,7 @@ function numberOfValidGames(fileInput){
 	};
 
 	gamesArray.forEach((game, index) => {
-		// The logic of these statements mark an empty string as valid, to
+		// The logic of this code marks an empty string as valid, so to
 		// avoid adding the ID of an empty string, this conditional is used
 		if (game === "") return; 
 
@@ -76,4 +78,16 @@ function powerOfASetOfCubes(fileInput){
 
 
 module.exports = {
+	dayName: "Cube Conondrum",
+	description: "No Description yet",
+
+	testsResults: {
+		firstPart: numberOfValidGames(testInput),
+		secondPart: powerOfASetOfCubes(testInput)
+	},
+
+	problemSolutions: {
+		firstPart: numberOfValidGames(puzzleInput),
+		secondPart: powerOfASetOfCubes(puzzleInput)
+	}
 }
