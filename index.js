@@ -26,7 +26,7 @@ function filesArray() {
 function commandLineDescription(daysArray){
 	let commandMessage = "---------------------------------\n"
 	for (let i = 0; i < daysArray.length; i++) {
-		commandMessage += `${i + 1}- ${daysArray[i]}\n`;
+		commandMessage += `${i + 1}.- ${daysArray[i]}\n`;
 	}
 	commandMessage += "---------------------------------"
 	return commandMessage;
@@ -38,7 +38,7 @@ function getAOCDayInfo(fileString) {
 		let importedValues = require(`./src_files/${fileString}`);
 		const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
 
-		const didImport = Object.keys(importedValues).length >= 0;
+		const didImport = Object.keys(importedValues).length > 0;
 		console.log(didImport ? importedValues : errorMessage);
 
 		delete require.cache[require.resolve(`./src_files/${fileString}`)];
@@ -54,15 +54,29 @@ function getAOCDayInfo(fileString) {
 
 
 
+function createNewFile() {
+	// The logic is just getting started, this is for testing only
+	let input = prompt("Select the day that this new file is gonna complete: ");
+
+	const command = execCommand(`find src_files/ -name "Day${input}.js" -type f`,
+								{encoding: "utf8"});
+
+	if (command)
+		console.log(command);
+	else
+		console.log(`No file with the name Day${input}.js found`);
+}
+
 
 (function main() {
 	const daysArray = filesArray();
 	const commandLineMessage = commandLineDescription(daysArray);
-	console.log(daysArray);
 
 	while (true){
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
-		let input = prompt("Select a day to review ---> ");
+		console.log("0.- Create a new file")
+		console.log("---------------------------------");
+		let input = prompt("Select an option by its number: ");
 
 		// "CTRL + C" or "exit" ends the REPL
 		if (!input || input === "exit") {
@@ -70,8 +84,12 @@ function getAOCDayInfo(fileString) {
 			break;
 		}
 		console.log("\n");
+		if (input === "0") {
+			createNewFile();
+			continue;
+		}
 
-		const daySelected = daysArray[input - 1];
+		const daySelected = daysArray[Number(input) - 1];
 		if (daySelected) {
 			getAOCDayInfo(daySelected);
 		} else {
