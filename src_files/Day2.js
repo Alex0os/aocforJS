@@ -78,7 +78,7 @@ function powerOfASetOfCubes(fileInput){
 
 
 module.exports = {
-	dayName: "Cube Conondrum",
+	challengeName: "Cube Conondrum",
 	description: "No Description yet",
 
 	testsResults: {

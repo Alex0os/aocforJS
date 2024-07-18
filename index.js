@@ -53,6 +53,45 @@ function getAOCDayInfo(fileString) {
 }
 
 
+function newAOCDay(dayNumber){
+	const jsModuleName = `Day${dayNumber}.js`;
+	const inputFileName = `inputDay${dayNumber}.txt`
+
+	let challengeName;
+	let description;
+
+	while (true) {
+		challengeName = prompt("Introduce the day challenge name: "); 
+		
+		if (!challengeName) {
+			console.log("You must introduce a name for this AOC challenge");
+			continue;
+		}
+		console.log("Introudce a brief description (you can press Enter to skip this)")
+		description = prompt("---> "); 
+		description = description === "" ? "No description provided" : description;
+		break;
+	}
+
+	const challengeDetails = {
+		challengeName: challengeName,
+		description: description,
+
+		testResults : {
+			firstPart: null,
+			secondPart: null,
+		},
+
+		problemSolutions: {
+			firstPart: null,
+			secondPart: null
+		}
+	}
+
+	console.log(`JS Module --> ${jsModuleName}\nInput file --> ${inputFileName}\n`);
+	console.log(`Your object is\n${JSON.stringify(challengeDetails, null, 2)}`);
+}
+
 
 function createNewFile() {
 	// The logic is just getting started, this is for testing only
@@ -74,7 +113,7 @@ function createNewFile() {
 		if (command)
 			console.log(`The file that solves the AOC day ${input} already exists`);
 		else
-			console.log(`There is no day that solves the AOC day ${input}`);
+			newAOCday(input);
 	}
 }
 

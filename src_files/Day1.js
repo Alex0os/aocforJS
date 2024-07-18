@@ -98,7 +98,7 @@ function wordsIntoNumbers(input) {
 
 
 module.exports = {
-	dayName : "Trebuchet?",
+	challengeName : "Trebuchet?",
 
 	description : `The problem input are strings of multiple lines where
 	each line is made of words and numbers. So your job is to find the
