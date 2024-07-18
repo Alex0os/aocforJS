@@ -26,7 +26,7 @@ function filesArray() {
 function commandLineDescription(daysArray){
 	let commandMessage = "---------------------------------\n"
 	for (let i = 0; i < daysArray.length; i++) {
-		commandMessage += `${i + 1}.- ${daysArray[i]}\n`;
+		commandMessage += `${i + 1}: ${daysArray[i]}\n`;
 	}
 	commandMessage += "---------------------------------"
 	return commandMessage;
@@ -56,15 +56,26 @@ function getAOCDayInfo(fileString) {
 
 function createNewFile() {
 	// The logic is just getting started, this is for testing only
-	let input = prompt("Select the day that this new file is gonna complete: ");
+	while (true) {
+		let input = prompt("Select the day that this new file is gonna complete: ");
 
-	const command = execCommand(`find src_files/ -name "Day${input}.js" -type f`,
-								{encoding: "utf8"});
+		if (!input || input === "return")
+			break;
 
-	if (command)
-		console.log(command);
-	else
-		console.log(`No file with the name Day${input}.js found`);
+		const validNumber = Number(input);
+		if (!validNumber || Number(validNumber) > 25) {
+			console.log(`"${input}" is not a valid input`);
+			continue;
+		}
+
+		const command = execCommand(`find src_files/ -name "Day${input}.js" -type f`,
+			{encoding: "utf8"});
+
+		if (command)
+			console.log(`The file that solves the AOC day ${input} already exists`);
+		else
+			console.log(`There is no day that solves the AOC day ${input}`);
+	}
 }
 
 
@@ -74,9 +85,11 @@ function createNewFile() {
 
 	while (true){
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
-		console.log("0.- Create a new file")
+		console.log("0: Create a new file")
 		console.log("---------------------------------");
-		let input = prompt("Select an option by its number: ");
+		console.log("'exit': Gets out of the command prompt");
+		console.log("---------------------------------");
+		let input = prompt("Introduce a displayed option: ");
 
 		// "CTRL + C" or "exit" ends the REPL
 		if (!input || input === "exit") {
