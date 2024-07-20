@@ -2,8 +2,8 @@ const execCommand = require("child_process").execSync;
 const prompt = require("prompt-sync")({sigint : false});
 
 
-function filesArray() {
-	const daysArray = new Array();
+function filesObject() {
+	const daysObject = new Object();
 	let srcFilesRoutes = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
 	// "srcFilesRoutes" last element is an empty string that the "execComand()" returns by default
 	srcFilesRoutes = srcFilesRoutes.slice(0, -1);
@@ -16,17 +16,20 @@ function filesArray() {
 	const FILE_INDEX = 1;
 	for (route of srcFilesRoutes) {
 		route = route.split("/");
+
 		const fileName = route[FILE_INDEX];
-		daysArray.push(fileName);
+		const fileDay = fileName.match(/\d+/g);
+
+		daysObject[fileDay] = fileName;
 
 	}
-	return daysArray;
+	return daysObject;
 }
 
-function commandLineDescription(daysArray){
+function commandLineDescription(daysObject){
 	let commandMessage = "---------------------------------\n"
-	for (let i = 0; i < daysArray.length; i++) {
-		commandMessage += `${i + 1}: ${daysArray[i]}\n`;
+	for (i in daysObject) {
+		commandMessage += `${i}: ${daysObject[i]}\n`;
 	}
 	commandMessage += "---------------------------------"
 	return commandMessage;
@@ -119,8 +122,8 @@ function createNewFile() {
 
 
 (function main() {
-	const daysArray = filesArray();
-	const commandLineMessage = commandLineDescription(daysArray);
+	const daysObject = filesObject();
+	const commandLineMessage = commandLineDescription(daysObject);
 
 	while (true){
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
@@ -141,7 +144,7 @@ function createNewFile() {
 			continue;
 		}
 
-		const daySelected = daysArray[Number(input) - 1];
+		const daySelected = daysObject[input];
 		if (daySelected) {
 			getAOCDayInfo(daySelected);
 		} else {
