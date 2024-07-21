@@ -36,22 +36,36 @@ function commandLineDescription(daysObject){
 }
 
 function getAOCDayInfo(fileString) {
+	console.log("Introduce 'E' to edit the file");
+	console.log("---------------------------------");
+	console.log("Introduce 'I' to import the file content");
+	console.log("---------------------------------");
+	console.log("Press CTRL + C or 'return' to get back");
+	console.log("---------------------------------");
+
+	const fileRoute = `./src_files/${fileString}`;
 
 	while (true) {
-		let importedValues = require(`./src_files/${fileString}`);
-		const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
+		let input = prompt("--> ");
 
-		const didImport = Object.keys(importedValues).length > 0;
-		console.log(didImport ? importedValues : errorMessage);
+		if (input === "E") {
+			continue;
+		} 
+		else if (input === "I") {
+			let importedValues = require(fileRoute);
+			const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
 
-		delete require.cache[require.resolve(`./src_files/${fileString}`)];
-		let input = prompt("Press CTRL + C or write 'return' to go back: ");
+			const didImport = Object.keys(importedValues).length > 0;
+			console.log(didImport ? importedValues : errorMessage);
 
+			delete require.cache[require.resolve(`./src_files/${fileString}`)];
+			continue;
+		} 
 
 		if (!input || input === "return")
 			break;
-		else if (input === "try again")
-			continue;
+		else
+			console.log("Bad input");
 	}
 }
 
@@ -116,7 +130,7 @@ function createNewFile() {
 		if (command)
 			console.log(`The file that solves the AOC day ${input} already exists`);
 		else
-			newAOCday(input);
+			newAOCDay(input);
 	}
 }
 
@@ -127,7 +141,7 @@ function createNewFile() {
 
 	while (true){
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
-		console.log("0: Create a new file")
+		console.log("'Create': Create a new file")
 		console.log("---------------------------------");
 		console.log("'exit': Gets out of the command prompt");
 		console.log("---------------------------------");
@@ -139,7 +153,7 @@ function createNewFile() {
 			break;
 		}
 		console.log("\n");
-		if (input === "0") {
+		if (input === "Create") {
 			createNewFile();
 			continue;
 		}
