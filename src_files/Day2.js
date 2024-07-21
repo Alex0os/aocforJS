@@ -1,6 +1,5 @@
-const { testsResults } = require("./Day1");
-
-let puzzleInput = require("fs").readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/inputDay2.txt", "utf8");
+const fs = require("fs");
+let fileInput = fs.readFileSync("/home/Matixannder/Desktop/AdventOfCode/JS/input_files/inputDay2.txt", "utf8");
 
 const testInput = `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -9,10 +8,10 @@ Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`
 
 //PART 1
-function numberOfValidGames(fileInput){
+function numberOfValidGames(input){
 	// The last element of "gamesArray" is an empty string. The conondrum is
 	// solved at the start of the "forEach" method
-	let gamesArray = fileInput.split("\n");
+	let gamesArray = input.split("\n");
 	let answer = 0;
 
 	const validAmounts = {
@@ -49,8 +48,8 @@ function numberOfValidGames(fileInput){
 
 
 //PART 2
-function powerOfASetOfCubes(fileInput){
-	const gamesArray = fileInput.split("\n");
+function powerOfASetOfCubes(input){
+	const gamesArray = input.split("\n");
 	let result = 0;
 
 	gamesArray.forEach(game => {
@@ -87,7 +86,7 @@ module.exports = {
 	},
 
 	problemSolutions: {
-		firstPart: numberOfValidGames(puzzleInput),
-		secondPart: powerOfASetOfCubes(puzzleInput)
+		firstPart: numberOfValidGames(fileInput),
+		secondPart: powerOfASetOfCubes(fileInput)
 	}
 }
