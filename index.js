@@ -1,10 +1,10 @@
-const execCommand = require("child_process").execSync;
+const { execSync } = require("child_process");
 const prompt = require("prompt-sync")({sigint : false});
 
 
 function filesObject() {
 	const daysObject = new Object();
-	let srcFilesRoutes = execCommand('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
+	let srcFilesRoutes = execSync('find src_files/ -name "*.js" -type f', {encoding: "utf8"}).split("\n")
 	// "srcFilesRoutes" last element is an empty string that the "execComand()" returns by default
 	srcFilesRoutes = srcFilesRoutes.slice(0, -1);
 
@@ -35,7 +35,18 @@ function commandLineDescription(daysObject){
 	return commandMessage;
 }
 
-function getAOCDayInfo(fileString) {
+function openNeovim(fileToEdit) {
+	// Comando para abrir una nueva terminal y ejecutar Neovim
+	const currentTerminal = execSync("echo $TERM", {encoding: "utf8"});
+	const isTMUX = currentTerminal.match("tmux-256color");
+	
+	if (isTMUX)
+		execSync("tmux new-window nvim " + fileToEdit);
+	else
+		console.log("Sorry, TMUX is needed to do this");
+}
+
+function getAOCDayInfo(fileName) {
 	console.log("Introduce 'E' to edit the file");
 	console.log("---------------------------------");
 	console.log("Introduce 'I' to import the file content");
@@ -43,22 +54,24 @@ function getAOCDayInfo(fileString) {
 	console.log("Press CTRL + C or 'return' to get back");
 	console.log("---------------------------------");
 
-	const fileRoute = `./src_files/${fileString}`;
+	const fileRoute = './src_files/' + fileName;
 
 	while (true) {
 		let input = prompt("--> ");
 
 		if (input === "E") {
+			openNeovim(fileRoute);
 			continue;
 		} 
+
 		else if (input === "I") {
 			let importedValues = require(fileRoute);
-			const errorMessage = 'No values were imported from ----> ' + fileString + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
+			const errorMessage = 'No values were imported from ----> ' + fileName + '\ \nCheck if a description and value are provided with the "modules.export" utility\n';
 
 			const didImport = Object.keys(importedValues).length > 0;
 			console.log(didImport ? importedValues : errorMessage);
 
-			delete require.cache[require.resolve(`./src_files/${fileString}`)];
+			delete require.cache[require.resolve(fileRoute)];
 			continue;
 		} 
 
@@ -124,7 +137,7 @@ function createNewFile() {
 			continue;
 		}
 
-		const command = execCommand(`find src_files/ -name "Day${input}.js" -type f`,
+		const command = execSync(`find src_files/ -name "Day${input}.js" -type f`,
 			{encoding: "utf8"});
 
 		if (command)

@@ -28,7 +28,7 @@ function surroundingCoordinates([x, y], inputLength, lineLength) {
 		let newY = y + j;
 
 		const less = newX < 0 || newY < 0;
-		const more = newX >= inputLength || newY >= lineLength;
+		const more = newX > inputLength || newY > lineLength;
 		
 		if (less || more)
 			return;
@@ -40,7 +40,7 @@ function surroundingCoordinates([x, y], inputLength, lineLength) {
 
 function anySymbolAround(symbolsAround) {
 	for (char of symbolsAround) {
-		if (char !== "." && !Number(char)) { 
+		if (char && char !== "." && char !== "0" && !Number(char)) { 
 			return true;
 		}
 	}
@@ -52,7 +52,7 @@ function numsAdjacentToSymbols(input) {
 	let sum = 0;
 
 	input = input.split("\n");
-	input.map(x => x + ".");
+	input = input.map(line => line += ".");
 
 	let checked = false;
 	let currentNumber = "";
@@ -75,8 +75,9 @@ function numsAdjacentToSymbols(input) {
 			} 
 			else if (!Number(input[x][y]) && currentNumber && input[x][y]!== "0") {
 				if (checked) {
-					console.log("The part number is: " + currentNumber);
+					//console.log("The part number is: " + currentNumber);
 					validNums.push(Number(currentNumber));
+					console.log(currentNumber);
 					sum += Number(currentNumber);
 					currentNumber = "";
 					checked = false;
@@ -87,7 +88,7 @@ function numsAdjacentToSymbols(input) {
 			}
 		}
 		const total = validNums.reduce((acc, num) => acc + num, 1);
-		//console.log(`${currentState} + ${total} (${JSON.stringify(validNums)}) --> ${sum}`);
+		console.log(`${currentState} + ${total} (${JSON.stringify(validNums)}) --> ${sum}`);
 		//console.log(input[x]);
 	}
 	return sum;
