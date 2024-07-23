@@ -15,7 +15,7 @@ const testInput = `467..114..
 .664.598..`
 
 
-function surroundingCoordinates([x, y], inputLength, lineLength) {
+function surroundingCoordinates([y, x], inputLength, linesLength) {
 	const operandCoordinates = [
 		[-1, -1], [0, -1], [1, -1],
 		[-1, 0], [1, 0],
@@ -24,11 +24,11 @@ function surroundingCoordinates([x, y], inputLength, lineLength) {
 	const newCoordinates = [];
 
 	operandCoordinates.forEach(([i, j]) => {
-		let newX = x + i;
-		let newY = y + j;
+		let newX = y + i;
+		let newY = x + j;
 
 		const less = newX < 0 || newY < 0;
-		const more = newX > inputLength || newY > lineLength;
+		const more = newX >= inputLength || newY >= linesLength;
 		
 		if (less || more)
 			return;
@@ -36,6 +36,10 @@ function surroundingCoordinates([x, y], inputLength, lineLength) {
 		newCoordinates.push([newX, newY]);
 	})
 	return newCoordinates;
+}
+
+function isANumber(char){
+	return !isNaN(parseInt(char));
 }
 
 function anySymbolAround(symbolsAround) {
@@ -58,26 +62,19 @@ function numsAdjacentToSymbols(input) {
 	let currentNumber = "";
 
 	const inputLength = input.length;
-	for (let x = 0; x < input.length; x++) {
-		currentNumber = "";
-		checked = false;
-		const currentState = sum;
-		const lineLength = input[x].length;
-		const validNums = [];
-		for (let y = 0; y < input[x].length; y++) {
-			if (Number(input[x][y]) || input[x][y] === "0") {
-				currentNumber += input[x][y];
-				const surroundings = surroundingCoordinates([x, y], inputLength, lineLength);
+	const linesLength = input[0].length;
+
+	for (let y = 0; y < input.length; y++) {
+		for (let x = 0; x < input[y].length; x++) {
+			if (isANumber(input[y][x])) {
+				currentNumber += input[y][x];
+				const surroundings = surroundingCoordinates([y, x], inputLength, linesLength);
 				let surroundingSymbols = [];
 				surroundings.map(([i, j]) => surroundingSymbols.push(input[i][j]));
-				console.log(`${currentNumber} --> ${surroundingSymbols}`);
 				checked = checked ? checked : anySymbolAround(surroundingSymbols);
 			} 
-			else if (!Number(input[x][y]) && currentNumber && input[x][y]!== "0") {
+			if (!isANumber(input[y][x])) {
 				if (checked) {
-					//console.log("The part number is: " + currentNumber);
-					validNums.push(Number(currentNumber));
-					console.log(currentNumber);
 					sum += Number(currentNumber);
 					currentNumber = "";
 					checked = false;
@@ -87,14 +84,10 @@ function numsAdjacentToSymbols(input) {
 				}
 			}
 		}
-		const total = validNums.reduce((acc, num) => acc + num, 1);
-		console.log(`${currentState} + ${total} (${JSON.stringify(validNums)}) --> ${sum}`);
-		//console.log(input[x]);
 	}
 	return sum;
 }
 
-console.log(numsAdjacentToSymbols(fileInput));
 
 module.exports = {
 	challengeName : "Gear Ratios",
@@ -102,11 +95,12 @@ module.exports = {
 	description : `No description provided`,
 
 	testsResults : {
+		firstPart: numsAdjacentToSymbols(testInput),
 		secondPart: null
 	},
 
 	prolemSolutions : {
-		firstPart: null,
+		firstPart: numsAdjacentToSymbols(fileInput),
 		secondPart: null
 	}
 }
