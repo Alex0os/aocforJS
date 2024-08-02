@@ -119,14 +119,18 @@ function newAOCDay(dayNumber){
 		}
 	}
 
-	const fileContent = `// This is the section where you should write your solutions\n\n\n//\n\n${JSON.stringify(challengeDetails, null, 4)}`;
+	const fileObject = "challengeDetails = " + JSON.stringify(challengeDetails, null, 4);
 
+	const fileContent = `// This is the section where you should write your solutions\n//-----\n\n\n\n//-----\n\n${fileObject}`;
+
+	const newFileRoute = `src_files/${jsModuleName}`
 	try {
-		writeFileSync(jsModuleName, fileContent);
+		writeFileSync(newFileRoute, fileContent);
 		console.log("File created and wrote successfully")
 	} catch (err) {
 		console.log("Error writing file:", err);
 	}
+	return;
 }
 
 
@@ -149,17 +153,19 @@ function createNewFile() {
 
 		if (command)
 			console.log(`The file that solves the AOC day ${input} already exists`);
-		else
+		else {
 			newAOCDay(input);
+			break;
+		}
 	}
 }
 
 
 (function main() {
-	const daysObject = filesObject();
-	const commandLineMessage = commandLineDescription(daysObject);
-
 	while (true){
+		const daysObject = filesObject();
+		const commandLineMessage = commandLineDescription(daysObject);
+
 		console.log("Days of AOC reviewed:\n" + commandLineMessage);
 		console.log("'Create': Create a new file")
 		console.log("---------------------------------");
