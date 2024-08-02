@@ -96,21 +96,21 @@ function wordsIntoNumbers(input) {
 
 
 module.exports = {
-	challengeName : "Trebuchet?",
+	"challengeName" : "Trebuchet?",
 
-	description : `The problem input are strings of multiple lines where
+	"description" : `The problem input are strings of multiple lines where
 	each line is made of words and numbers. So your job is to find the
 	first and last number in each line, put them next to each other and
 	then add every one of the composed numbers to get a result`,
 
-	testsResults : {
-		firstPart: getNumsResult(testFirstPart),
-		secondPart: wordsIntoNumbers(testSecondPart)
+	"testsResults" : {
+		"firstPart": getNumsResult(testFirstPart),
+		"secondPart": wordsIntoNumbers(testSecondPart)
 	},
 
-	prolemSolutions : {
-		firstPart: getNumsResult(fileInput),
-		secondPart: wordsIntoNumbers(fileInput)
+	"prolemSolutions" : {
+		"firstPart": getNumsResult(fileInput),
+		"secondPart": wordsIntoNumbers(fileInput)
 	}
 }
 

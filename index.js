@@ -1,6 +1,6 @@
+const { writeFileSync } = require("fs")
 const { execSync } = require("child_process");
 const prompt = require("prompt-sync")({sigint : false});
-
 
 function filesObject() {
 	const daysObject = new Object();
@@ -83,6 +83,7 @@ function getAOCDayInfo(fileName) {
 }
 
 
+
 function newAOCDay(dayNumber){
 	const jsModuleName = `Day${dayNumber}.js`;
 	const inputFileName = `inputDay${dayNumber}.txt`
@@ -109,7 +110,7 @@ function newAOCDay(dayNumber){
 
 		testResults : {
 			firstPart: null,
-			secondPart: null,
+			secondPart: null
 		},
 
 		problemSolutions: {
@@ -118,8 +119,14 @@ function newAOCDay(dayNumber){
 		}
 	}
 
-	console.log(`JS Module --> ${jsModuleName}\nInput file --> ${inputFileName}\n`);
-	console.log(`Your object is\n${JSON.stringify(challengeDetails, null, 2)}`);
+	const fileContent = `// This is the section where you should write your solutions\n\n\n//\n\n${JSON.stringify(challengeDetails, null, 4)}`;
+
+	try {
+		writeFileSync(jsModuleName, fileContent);
+		console.log("File created and wrote successfully")
+	} catch (err) {
+		console.log("Error writing file:", err);
+	}
 }
 
 

@@ -77,16 +77,16 @@ function powerOfASetOfCubes(input){
 
 
 module.exports = {
-	challengeName: "Cube Conondrum",
-	description: "No Description yet",
+	"challengeName": "Cube Conondrum",
+	"description": "No Description yet",
 
-	testsResults: {
-		firstPart: numberOfValidGames(testInput),
-		secondPart: powerOfASetOfCubes(testInput)
+	"testsResults": {
+		"firstPart": numberOfValidGames(testInput),
+		"secondPart": powerOfASetOfCubes(testInput)
 	},
 
-	problemSolutions: {
-		firstPart: numberOfValidGames(fileInput),
-		secondPart: powerOfASetOfCubes(fileInput)
+	"problemSolutions": {
+		"firstPart": numberOfValidGames(fileInput),
+		"secondPart": powerOfASetOfCubes(fileInput)
 	}
 }
