@@ -144,7 +144,7 @@ function createNewFile() {
 
 		const validNumber = Number(input);
 		if (!validNumber || Number(validNumber) > 25) {
-			console.log(`"${input}" is not a valid input`);
+			console.log(`"${input}" is not a valid challenge day`);
 			continue;
 		}
 
