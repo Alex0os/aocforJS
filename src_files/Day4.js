@@ -89,7 +89,22 @@ function parseGames(input) {
 }
 
 
-console.log(scratchCardTotal(fileInput));
-//console.log("totalScore", parseGames(testInput));
-console.log(parseGames(fileInput));
-//console.dir(originalsAndCopies(fileInput), {"maxArrayLength" : null});
+module.exports = {
+	"challengeName" : "ScratchCards",
+
+	"description" : "The problem is about taking a set of cards, where each card\n" +
+	"has 2 groups of numbers, the second group is the group of winning numbers\n" +
+	"and the first is the numbers that the card offers. Each card represents a game\n" +
+	"where you have to see what numbers of the first group are in the second one",
+
+	"testsResults" : {
+		"firstPart": scratchCardTotal(testInput),
+		"secondPart": parseGames(testInput)
+	},
+
+	"prolemSolutions" : {
+		"firstPart": scratchCardTotal(fileInput),
+		"secondPart": parseGames(fileInput)
+	}
+}
+
