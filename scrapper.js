@@ -3,6 +3,23 @@
 let userName;
 let password;
 
+async function getTestInput(driver, day) {
+	const notValid = !day || (0 > parseInt(day) || parseInt(day) > 26)
+	if (notValid) {
+		console.log("You entered an invalid day number");
+		return;
+	}
+
+	await driver.get("https://adventofcode.com/2023/day/" + day);
+	const challengeInput = await driver.findElements(By.css("pre code"));
+
+	for (let i = 0; i < challengeInput.length; i++) {
+		console.log(`\nElemento N°${i+1}` + "*".repeat(10));
+		console.log(await challengeInput[i].getText());
+		console.log("*".repeat(10));
+	}
+}
+
 async function getInput(driver, day) {
 	const notValid = !day || (0 > parseInt(day) || parseInt(day) > 26)
 	if (notValid) {
@@ -33,5 +50,6 @@ async function getInput(driver, day) {
 
 	await driver.wait(until.titleIs("Advent of Code 2023"), 10000)
 	await getInput(driver, 1);
+	await getTestInput(driver, 1);
 	await driver.quit();
 })();
